@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: anonymizer-app
-      version: '3.15.0'
+      version: '3.18.4'
       sourceRef:
         kind: HelmRepository
         name: anonymizer
@@ -28,7 +28,7 @@ spec:
     name: anonymizer
     environmentName: staging
     runtimeEnvironment: staging
-    packageVersion: 1.0.553 # {"$imagepolicy": "flux-system:anonymizer:tag"}
+    packageVersion: 1.0.630 # {"$imagepolicy": "flux-system:anonymizer:tag"}
     # auth:  # Optional authentication via IdP — choose one protocol (OIDC or SAML), do not configure both
     #
     #   # Option 1: OIDC
@@ -123,7 +123,7 @@ spec:
     name: anonymizer
     environmentName: staging
     runtimeEnvironment: staging
-    packageVersion: 1.0.553 # {"$imagepolicy": "flux-system:anonymizer:tag"}
+    packageVersion: 1.0.630 # {"$imagepolicy": "flux-system:anonymizer:tag"}
     jobCorrelationId: "tobedeleted"
     checkRollback:
       enabled: false
