@@ -17,7 +17,7 @@ spec:
   chart:
     spec:
       chart: anonymizer-app
-      version: '3.15.0'
+      version: '3.18.5'
       sourceRef:
         kind: HelmRepository
         name: anonymizer
@@ -28,7 +28,8 @@ spec:
     name: anonymizer
     environmentName: staging
     runtimeEnvironment: staging
-    packageVersion: 1.0.553 # {"$imagepolicy": "flux-system:anonymizer:tag"}
+    tenant: anonym-ts-mpg
+    packageVersion: 1.0.632 # {"$imagepolicy": "flux-system:anonymizer:tag"}
     # auth:  # Optional authentication via IdP — choose one protocol (OIDC or SAML), do not configure both
     #
     #   # Option 1: OIDC
@@ -53,25 +54,28 @@ spec:
     jobCorrelationId: "tobedeleted"
     product: anonymizer
     services:
-      name: anonymizer-services
-      imageName: anonymizer_services
-      replicas: "1"
-      resources:
-        limits:
-          memory: "512Mi"
-        requests:
-          cpu: "500m"
-          memory: "256Mi"
       ingressRoute:
         enabled: false
-      reliable: false
-      envFrom:
-        - secretRef:
-            name: manual-secrets
-    lrt:
-      imageName: anonymizer_worker
       roles:
-        - replicas: "1"
+        # Chart defaults declare a regular+important pair under this key; nulled out here
+        # since w-pg only ever ran a single low-resource replica with no exposed host split.
+        regular: null
+        important: null
+        default:
+          replicas: "1"
+          resources:
+            limits:
+              memory: "512Mi"
+            requests:
+              cpu: "500m"
+              memory: "256Mi"
+          envFrom:
+            - secretRef:
+                name: manual-secrets
+    lrt:
+      roles:
+        default:
+          replicas: "1"
           resources:
             limits:
               memory: "1024Mi"
@@ -96,8 +100,6 @@ spec:
           secretKeyRef:
             name: db-anonymizer-anonymizer-user-password
             key: password
-      - name: Application__Tenant
-        value: "anonym-ts-mpg"
       - name: PostgreSqlDatabase__ConnectionString
         value: "Host=rc1a-bsv50mn1q0ap2tjc.mdb.yandexcloud.net;Database=anonymizer;SSL Mode=Require;Port=6432;Maximum Pool Size=200;Enlist=false;"
       - name: OperationsApi__Url
@@ -123,7 +125,7 @@ spec:
     name: anonymizer
     environmentName: staging
     runtimeEnvironment: staging
-    packageVersion: 1.0.553 # {"$imagepolicy": "flux-system:anonymizer:tag"}
+    packageVersion: 1.0.632 # {"$imagepolicy": "flux-system:anonymizer:tag"}
     jobCorrelationId: "tobedeleted"
     checkRollback:
       enabled: false
