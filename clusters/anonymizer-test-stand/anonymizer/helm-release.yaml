@@ -101,6 +101,16 @@ spec:
               name: manual-secrets
               key: MindboxAuth__MindboxPublicKey
     services:
+      # outboundRequestHostOverrides — set this ONLY if your infrastructure uses DNS
+      # overrides for the anonymizer's own domain (split-horizon: the same public address
+      # resolves differently inside the cluster than outside). In that case the anonymizer's
+      # calls to its own public address break and must be redirected to the in-cluster
+      # service of the matching role. No DNS overrides of your own domain — leave it commented out.
+      # outboundRequestHostOverrides:
+      #   - host: anonymizer-regular.company-name.ru
+      #     role: regular
+      #   - host: anonymizer-important.company-name.ru
+      #     role: important
       # # Пример настройки affinity & tolerations
       #   nodeAffinity:
       #     preferredDuringSchedulingIgnoredDuringExecution:
