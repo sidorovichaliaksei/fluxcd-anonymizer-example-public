@@ -57,12 +57,19 @@ spec:
       ingressRoute:
         enabled: false
       roles:
-        # Chart defaults declare a regular+important pair under this key; nulled out here
-        # since w-pg only ever ran a single low-resource replica with no exposed host split.
-        regular: null
-        important: null
-        default:
-          replicas: "1"
+        regular:
+          replicas: "3"
+          resources:
+            limits:
+              memory: "512Mi"
+            requests:
+              cpu: "500m"
+              memory: "256Mi"
+          envFrom:
+            - secretRef:
+                name: manual-secrets
+        important:
+          replicas: "3"
           resources:
             limits:
               memory: "512Mi"
